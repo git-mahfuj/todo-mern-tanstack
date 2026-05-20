@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div className="flex flex-col justify-center items-center translate-y-12">
       <h1 className="text-3xl">Todo App with Mern-Tanstack</h1>
-      <div>
+      <div className="mt-10">
         <TodoInput />
         <TodoList />
       </div>
