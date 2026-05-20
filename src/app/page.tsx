@@ -1,5 +1,6 @@
 import TodoInput from "@/components/TodoInput";
 import TodoList from "@/components/TodoList";
+import { connectDB } from "@/db/db";
 import Image from "next/image";
 
 export default function Home() {
