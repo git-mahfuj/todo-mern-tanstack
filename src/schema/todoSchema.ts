@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 
 export interface TodoType {
-  id: number;
-  name: string;
+   _id?: string;
+    id: number | string;
+    name: string;
 }
 
 const todoSchema = mongoose.Schema.create(
