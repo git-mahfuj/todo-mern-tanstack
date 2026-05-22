@@ -2,9 +2,10 @@ import { connectDB } from "@/db/db";
 import Todo from "@/schema/todoSchema";
 import { NextRequest, NextResponse } from "next/server";
 
-connectDB();
+
 
 export async function GET() {
+  await connectDB();
   try {
     const todos = await Todo.find({});
     console.log(todos);

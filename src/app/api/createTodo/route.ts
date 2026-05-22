@@ -2,8 +2,9 @@ import { connectDB } from "@/db/db";
 import Todo from "@/schema/todoSchema";
 import { NextRequest, NextResponse } from "next/server";
 
-connectDB();
+
 export async function POST(req: NextRequest) {
+  await connectDB();
   try {
     const reqBody = await req.json();
     const { name } = reqBody;

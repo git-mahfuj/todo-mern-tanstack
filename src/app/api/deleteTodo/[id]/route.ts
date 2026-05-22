@@ -2,12 +2,11 @@ import { connectDB } from "@/db/db";
 import Todo from "@/schema/todoSchema";
 import { NextRequest, NextResponse } from "next/server";
 
-connectDB();
-
 export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  await connectDB();
   try {
     const { id } = await params;
     const deletedProduct = await Todo.findByIdAndDelete(id);

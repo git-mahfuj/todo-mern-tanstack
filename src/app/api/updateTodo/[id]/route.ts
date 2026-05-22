@@ -2,12 +2,11 @@ import { connectDB } from "@/db/db";
 import Todo from "@/schema/todoSchema";
 import { NextRequest, NextResponse } from "next/server";
 
-connectDB();
-
 export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  await connectDB();
   try {
     const { id } = await params;
     const reqBody = await req.json();
@@ -15,7 +14,7 @@ export async function PUT(
     const existingName = await Todo.findById(id as string);
 
     const newTodo = await Todo.replaceOne(
-      { _id : id },
+      { _id: id },
       {
         name: name
           .toLowerCase()
