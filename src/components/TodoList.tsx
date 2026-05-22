@@ -41,7 +41,6 @@ const TodoList = () => {
   const [updatedName, setUpdatedName] = useState("");
   const [editingTodo, setEditingTodo] = useState<TodoType | null>(null);
 
-
   const getTodoQuery = useQuery<{ data: TodoType[] }>({
     queryKey: ["todos"],
     queryFn: getTodos,
@@ -57,9 +56,11 @@ const TodoList = () => {
           if (!currentData || !currentData.data) return { data: [] };
           return {
             ...currentData,
-            data: currentData.data.filter((todo) => (todo._id || todo.id) !== id),
+            data: currentData.data.filter(
+              (todo) => (todo._id || todo.id) !== id,
+            ),
           };
-        }
+        },
       );
     },
   });
@@ -97,7 +98,7 @@ const TodoList = () => {
           <p className="text-violet-700 font-semibold mt-2">Adding Todo...</p>
         </div>
       )}
-      
+
       {editingTodo && (
         <div className="absolute inset-0 bg-white/60 backdrop-blur-sm flex flex-col items-center pt-20 z-10 transition-all duration-300">
           <div className="mb-2 text-2xl font-medium text-zinc-800">
@@ -135,43 +136,48 @@ const TodoList = () => {
           <div>Loading ...</div>
         ) : (
           <div className="flex flex-col gap-2 w-full">
-            
-            {todoListArray.map((i: TodoType, index: number) => {
-              return (
-                <div
-                  key={i._id || i.id || index}
-                  className="flex justify-between px-5 w-full items-center py-1"
-                >
-                  <div className="flex items-center">
-                    <p className="font-medium text-xl">{i.name}</p>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => {
-                        setEditingTodo(i);
-                        setUpdatedName(i.name);
-                      }}
-                      className="px-2 py-1 bg-blue-700 text-white font-medium rounded-md text-sm"
+            {todoListArray.length > 0 ? (
+              <div className="flex flex-col gap-2 w-full">
+                {todoListArray.map((i: TodoType, index: number) => {
+                  return (
+                    <div
+                      key={i._id || i.id || index}
+                      className="flex justify-between px-5 w-full items-center py-1"
                     >
-                      update
-                    </button>
+                      <div className="flex items-center">
+                        <p className="font-medium text-xl">{i.name}</p>
+                      </div>
 
-                    <button
-                      onClick={() =>
-                        deleteTodoQuery.mutate((i._id || i.id) as string)
-                      }
-                      className="px-2 py-1 bg-red-700 text-white font-medium rounded-md text-sm min-w-17.5"
-                    >
-                      {deleteTodoQuery.isPending &&
-                      deleteTodoQuery.variables === (i._id || i.id)
-                        ? "deleting.."
-                        : "delete"}
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => {
+                            setEditingTodo(i);
+                            setUpdatedName(i.name);
+                          }}
+                          className="px-2 py-1 bg-blue-700 text-white font-medium rounded-md text-sm"
+                        >
+                          update
+                        </button>
+
+                        <button
+                          onClick={() =>
+                            deleteTodoQuery.mutate((i._id || i.id) as string)
+                          }
+                          className="px-2 py-1 bg-red-700 text-white font-medium rounded-md text-sm min-w-17.5"
+                        >
+                          {deleteTodoQuery.isPending &&
+                          deleteTodoQuery.variables === (i._id || i.id)
+                            ? "deleting.."
+                            : "delete"}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2 w-full">No Todo Found</div>
+            )}
           </div>
         )}
       </div>
